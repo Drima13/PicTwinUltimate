@@ -65,16 +65,17 @@ import static java.lang.Thread.sleep;
  * @author David Meza Astengo
  */
 public class MainActivity extends Activity {
-
-        private String urlphp = "http://192.168.0.8";
+    // 172.53.25.31
+    // 172.53.25.31
+    private String urlphp = "http://192 .168.56.1";
     Button addImage;
     private Pic picUni;
     Uri uriUni;
-    String encodedImageUni= "djadahdkahsdiahdjasohdquwiheqwuehqiwuenjakbckbhdahdbqwhjbdwqhjdbdb";
-    /*
-    ArrayList<Twin> imageArry = new ArrayList<Twin>();
-*/
-   // ContactImageAdapter imageAdapter;
+    String encodedImageUni = "asdasd";
+	/*
+	 * ArrayList<Twin> imageArry = new ArrayList<Twin>();
+	 */
+    // ContactImageAdapter imageAdapter;
 
     private static final int CAMERA_REQUEST = 1;
 
@@ -87,45 +88,45 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         // Cuchillo con mantequilla !
         ButterKnife.bind(this);
-        //lista para el adapter
+        // lista para el adapter
         ArrayList<Twin> imageArry = new ArrayList<Twin>();
         {
             FlowManager.init(new FlowConfig.Builder(getApplicationContext())
-                    .openDatabasesOnInit(true)
-                    .build());
+                    .openDatabasesOnInit(true).build());
 
         }
         {
-        ListView dataList = (ListView) findViewById(R.id.list);
+            ListView dataList = (ListView) findViewById(R.id.list);
 
-        List<Twin> twins = SQLite.select().
-                from(Twin.class).queryList();
+            List<Twin> twins = SQLite.select().from(Twin.class).queryList();
 
-        for (Twin cn : twins) {
-            String log = "ID:" + cn.getLocal().getId() + " Name: "
-                    + " ,Image: " + cn.getLocal().getUrl();
+            for (Twin cn : twins) {
+                String log = "ID:" + cn.getLocal().getId() + " Name: "
+                        + " ,Image: " + cn.getLocal().getUrl();
 
-            // Writing Contacts to log
-            Log.d("Result: ", log);
-            // add contacts data in arrayList
-            imageArry.add(cn);
+                // Writing Contacts to log
+                Log.d("Result: ", log);
+                // add contacts data in arrayList
+                imageArry.add(cn);
 
-        }
+            }
 
-        /**
-         * Set Data base Item into listview
-         */
+            /**
+             * Set Data base Item into listview
+             */
             ImageAdapter adapter = new ImageAdapter(this, imageArry);
             dataList.setAdapter(adapter);
-            /*
-        imageAdapter = new ContactImageAdapter(this, R.layout.screen_list, imageArry);
-        dataList.setAdapter(imageAdapter);*/
-    }
+			/*
+			 * imageAdapter = new ContactImageAdapter(this,
+			 * R.layout.screen_list, imageArry);
+			 * dataList.setAdapter(imageAdapter);
+			 */
+        }
         /**
          * open dialog for choose camera
          */
 
-        final String[] option = new String[]{"Take from Camera"};
+        final String[] option = new String[] { "Take from Camera" };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_item, option);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -140,7 +141,6 @@ public class MainActivity extends Activity {
                     callCamera();
                 }
 
-
             }
         });
         final AlertDialog dialog = builder.create();
@@ -153,10 +153,8 @@ public class MainActivity extends Activity {
             }
         });
 
-
     }
 
-/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK)
@@ -164,33 +162,31 @@ public class MainActivity extends Activity {
 
         switch (requestCode) {
             case CAMERA_REQUEST:
-                Intent i = new Intent(MainActivity.this,
-                        MainActivity.class);
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
 
-
         }
     }
-    */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-/*
-            Bitmap bm = BitmapFactory.decodeFile(uriUni.toString());
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-            byte[] byteArray1 = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(byteArray1,Base64.DEFAULT);
-            encodedImageUni = encodedImage;
-            */
-        }
 
-    }
-
+	/*
+	 * @Override protected void onActivityResult(int requestCode, int
+	 * resultCode, Intent data) { if (requestCode == REQUEST_TAKE_PHOTO &&
+	 * resultCode == Activity.RESULT_OK) {
+	 *
+	 * Bitmap bm = BitmapFactory.decodeFile(uriUni.toString());
+	 * ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	 * bm.compress(Bitmap.CompressFormat.JPEG, 50, baos); byte[] byteArray1 =
+	 * baos.toByteArray(); String encodedImage =
+	 * Base64.encodeToString(byteArray1,Base64.DEFAULT); encodedImageUni =
+	 * encodedImage;
+	 *
+	 * }
+	 *
+	 * }
+	 */
 
     static final int REQUEST_TAKE_PHOTO = 1;
-
 
     public void callCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -199,17 +195,19 @@ public class MainActivity extends Activity {
 
             // Create the File where the photo should go
 
-            File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            File pictureDirectory = Environment
+                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             String pictureName = getPictureName();
             File imageFile = new File(pictureDirectory, pictureName);
-            Uri pictureUri = Uri.fromFile(imageFile);// variable con uri direccion
+            Uri pictureUri = Uri.fromFile(imageFile);// variable con uri
+            // direccion
             intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
             uriUni = pictureUri;
             startActivityForResult(intent, CAMERA_REQUEST);
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             String deviceID = DeviceUtils.getDeviceId(getApplicationContext());
-            String  url = urlphp + "/insert/pic";
+            String url = urlphp + "/insert/pic";
 
             Log.d("Insert: ", "Inserting ..");
 
@@ -218,38 +216,32 @@ public class MainActivity extends Activity {
             Double latitud = positions[0];
             Double longitud = positions[1];
             {
-                FlowManager.init(new FlowConfig.Builder(getApplicationContext())
-                        .openDatabasesOnInit(true)
-                        .build());
+                FlowManager
+                        .init(new FlowConfig.Builder(getApplicationContext())
+                                .openDatabasesOnInit(true).build());
 
             }
-            Pic pic = Pic.builder()
-                    .deviceId(deviceID)
-                    .latitude(latitud)
-                    .longitude(longitud)
-                    .negative(0)
-                    .positive(0)
-                    .warning(0)
-                    .date(date)
-                    .url(pictureUri.toString())
-                    .build();
+            Pic pic = Pic.builder().deviceId(deviceID).latitude(latitud)
+                    .longitude(longitud).negative(0).positive(0).warning(0)
+                    .date(date).url(pictureUri.toString()).build();
             pic.save();
-
 
             try {
                 JSONObject jsonBody = new JSONObject();
                 jsonBody.put("pic", encodedImageUni);
                 jsonBody.put("deviceId", DeviceUtils.getDeviceId(this));
-                jsonBody.put("date",date);
-                jsonBody.put("latitud",latitud);
-                jsonBody.put("longitud",longitud);
+                jsonBody.put("date", date);
+                jsonBody.put("latitud", latitud);
+                jsonBody.put("longitud", longitud);
                 final String mRequestBody = jsonBody.toString();
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("VOLLEY", response);
-                    }
-                }, new Response.ErrorListener() {
+                StringRequest stringRequest = new StringRequest(
+                        Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("VOLLEY", response);
+                            }
+                        }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("VOLLEY", error.toString());
@@ -263,21 +255,27 @@ public class MainActivity extends Activity {
                     @Override
                     public byte[] getBody() throws AuthFailureError {
                         try {
-                            return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            return mRequestBody == null ? null : mRequestBody
+                                    .getBytes("utf-8");
                         } catch (UnsupportedEncodingException uee) {
-                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                            VolleyLog
+                                    .wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                            mRequestBody, "utf-8");
                             return null;
                         }
                     }
 
                     @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    protected Response<String> parseNetworkResponse(
+                            NetworkResponse response) {
                         String responseString = "";
                         if (response != null) {
-                            responseString = String.valueOf(response.statusCode);
+                            responseString = String
+                                    .valueOf(response.statusCode);
                             // can get more details such as response.headers
                         }
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        return Response.success(responseString,
+                                HttpHeaderParser.parseCacheHeaders(response));
                     }
                 };
 
@@ -286,9 +284,7 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //get remota
-
-
+            // get remota
 
             url = urlphp + "/get/pic";
 
@@ -302,55 +298,69 @@ public class MainActivity extends Activity {
             }
 
             final String mRequestBody = jsonBody.toString();
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //log.debug(response.toString());
-                            try {
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
 
-                                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                                String pictureName1 = getPictureName();
-                                File imageFile1 = new File(pictureDirectory, pictureName1);
-                                Uri pictureUri1 = Uri.fromFile(pictureDirectory);// variable con uri direccion
+                        File pictureDirectory = Environment
+                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        String pictureName1 = getPictureName();
+                        File imageFile1 = new File(pictureDirectory,
+                                pictureName1);
+                        Uri pictureUri1 = Uri
+                                .fromFile(pictureDirectory);// variable
+                        // con uri
+                        // direccion
 
-                                JSONObject jsonObject = new JSONObject(response);
-                                jsonObject.get("pic").toString();
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.get("pic").toString();
 
-                                byte [] bytes = Base64.decode(jsonObject.get("pic").toString(),0);
+                        byte[] bytes = Base64.decode(
+                                jsonObject.get("pic").toString(), 0);
 
-                                FileOutputStream fileOutputStream = new FileOutputStream(imageFile1,true);
-                                fileOutputStream.write(bytes);
-                                fileOutputStream.flush();
-                                fileOutputStream.close();
+                        FileOutputStream fileOutputStream = new FileOutputStream(
+                                imageFile1, true);
+                        fileOutputStream.write(bytes);
+                        fileOutputStream.flush();
+                        fileOutputStream.close();
 
-                                Pic pic1 = Pic.builder()
-                                        .deviceId(jsonObject.get("deviceId").toString())
-                                        .latitude(Double.parseDouble(jsonObject.get("latitud").toString()))
-                                        .longitude(Double.parseDouble(jsonObject.get("longitud").toString()))
-                                        .negative(0)
-                                        .positive(0)
-                                        .warning(0)
-                                        .date(Long.parseLong(jsonObject.get("date").toString()))
-                                        .url(pictureUri1.toString())
-                                        .build();
-                                pic1.save();
-                                picUni = pic1;
+                        Pic pic1 = Pic
+                                .builder()
+                                .deviceId(
+                                        jsonObject.get("deviceId")
+                                                .toString())
+                                .latitude(
+                                        Double.parseDouble(jsonObject
+                                                .get("latitud")
+                                                .toString()))
+                                .longitude(
+                                        Double.parseDouble(jsonObject
+                                                .get("longitud")
+                                                .toString()))
+                                .negative(0)
+                                .positive(0)
+                                .warning(0)
+                                .date(Long.parseLong(jsonObject.get(
+                                        "date").toString()))
+                                .url(pictureUri1.toString()).build();
+                        pic1.save();
+                        picUni = pic1;
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }, new Response.ErrorListener() {
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                 }
+                }
             }) {
                 @Override
                 public String getBodyContentType() {
@@ -360,27 +370,31 @@ public class MainActivity extends Activity {
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {
-                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                        return mRequestBody == null ? null : mRequestBody
+                                .getBytes("utf-8");
                     } catch (UnsupportedEncodingException uee) {
-                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        VolleyLog
+                                .wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                        mRequestBody, "utf-8");
                         return null;
                     }
                 }
             };
             queue.add(stringRequest);
 
-            Twin twin = Twin.builder()
-                    .local(pic)
-                    .remote(picUni)
-                    .build();
-            twin.save();
-/*
-insertar twins
- */
+			/*
+			 * insertar twins
+			 */
 
+            Pic pic1 = Pic.builder().deviceId(deviceID).latitude(latitud)
+                    .longitude(longitud).negative(0).positive(0).warning(0)
+                    .date(date).url(pictureUri.toString()).build();
+            pic1.save();
+
+            Twin twin = Twin.builder().local(pic).remote(pic1).build();
+            twin.save();
 
         }
-
 
     }
 
@@ -392,56 +406,62 @@ insertar twins
 
     }
 
-    private Double[] getPosicion(){
-        LocationManager locationManager = (LocationManager) getApplication().getSystemService(Context.LOCATION_SERVICE);
+    private Double[] getPosicion() {
+        LocationManager locationManager = (LocationManager) getApplication()
+                .getSystemService(Context.LOCATION_SERVICE);
         final Double[] salida = new Double[2];
 
-        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         Double longitud;
         Double latitud;
-        if(isGPSEnabled){
+        if (isGPSEnabled) {
             try {
                 Criteria criteria = new Criteria();
-                String provider = locationManager.getBestProvider(criteria, false);
-                Location location = locationManager.getLastKnownLocation(provider);
+                String provider = locationManager.getBestProvider(criteria,
+                        false);
+                Location location = locationManager
+                        .getLastKnownLocation(provider);
 
-                if(location != null){
+                if (location != null) {
                     longitud = location.getLongitude();
                     latitud = location.getLatitude();
-                    salida[0]=latitud;
-                    salida[1]=longitud;
+                    salida[0] = latitud;
+                    salida[1] = longitud;
 
-                }else{
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            Double longitud = location.getLongitude();
-                            Double latitud = location.getLatitude();
-                            salida[0]=latitud;
-                            salida[1]=longitud;
+                } else {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER, 0, 0,
+                            new LocationListener() {
+                                @Override
+                                public void onLocationChanged(Location location) {
+                                    Double longitud = location.getLongitude();
+                                    Double latitud = location.getLatitude();
+                                    salida[0] = latitud;
+                                    salida[1] = longitud;
 
-                        }
+                                }
 
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
+                                @Override
+                                public void onStatusChanged(String s, int i,
+                                                            Bundle bundle) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onProviderEnabled(String s) {
+                                @Override
+                                public void onProviderEnabled(String s) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onProviderDisabled(String s) {
+                                @Override
+                                public void onProviderDisabled(String s) {
 
-                        }
-                    });
+                                }
+                            });
                 }
 
-
-            }catch (SecurityException e){
+            } catch (SecurityException e) {
                 e.printStackTrace();
             }
 
@@ -449,9 +469,9 @@ insertar twins
         return salida;
     }
 
-    private Long getDate(){
+    private Long getDate() {
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
-        Long timeStamp =Long.parseLong(date.format(new Date()));
+        Long timeStamp = Long.parseLong(date.format(new Date()));
         return timeStamp;
     }
 
