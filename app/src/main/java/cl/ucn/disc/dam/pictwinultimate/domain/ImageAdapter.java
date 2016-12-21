@@ -2,6 +2,7 @@ package cl.ucn.disc.dam.pictwinultimate.domain;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import butterknife.BindView;
 import cl.ucn.disc.dam.pictwinultimate.R;
+import cl.ucn.disc.dam.pictwinultimate.activities.FotoActivity;
+
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -19,8 +23,13 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter{
     private Activity activity;
     private ArrayList<Twin> twins;
+    /*
+    @BindView(R.id.imageView1)
+    ImageView img1;
 
-
+    @BindView(R.id.imageView2)
+    ImageView img2;
+    */
     public ImageAdapter(Activity activity, ArrayList<Twin> twins){
 
         this.activity = activity;
@@ -51,7 +60,7 @@ public class ImageAdapter extends BaseAdapter{
         }
 
 
-        Twin twin = twins.get(position);
+        final Twin twin = twins.get(position);
         ImageView img1 = (ImageView)row.findViewById(R.id.imageView1);
         ImageView img2 = (ImageView)row.findViewById(R.id.imageView2);
 
@@ -75,7 +84,18 @@ public class ImageAdapter extends BaseAdapter{
                 .resize(300,300)
                 .centerCrop()
                 .into(img2);
+/*
+        img1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+                FotoActivity fotoActivity = new FotoActivity();
+                Intent intent = new Intent();
+                intent.putExtra("url",twin.getLocal().getUrl());
+                fotoActivity.startActivity(intent);
+
+            }
+        });
+        */
         return row;
     }
 }

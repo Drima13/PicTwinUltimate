@@ -65,17 +65,12 @@ import static java.lang.Thread.sleep;
  * @author David Meza Astengo
  */
 public class MainActivity extends Activity {
-    // 172.53.25.31
-    // 172.53.25.31
-    private String urlphp = "http://192 .168.56.1";
+
+    private String urlphp = "http://192.168.0.8";
     Button addImage;
     private Pic picUni;
     Uri uriUni;
     String encodedImageUni = "asdasd";
-	/*
-	 * ArrayList<Twin> imageArry = new ArrayList<Twin>();
-	 */
-    // ContactImageAdapter imageAdapter;
 
     private static final int CAMERA_REQUEST = 1;
 
@@ -116,11 +111,7 @@ public class MainActivity extends Activity {
              */
             ImageAdapter adapter = new ImageAdapter(this, imageArry);
             dataList.setAdapter(adapter);
-			/*
-			 * imageAdapter = new ContactImageAdapter(this,
-			 * R.layout.screen_list, imageArry);
-			 * dataList.setAdapter(imageAdapter);
-			 */
+
         }
         /**
          * open dialog for choose camera
@@ -200,6 +191,8 @@ public class MainActivity extends Activity {
             String pictureName = getPictureName();
             File imageFile = new File(pictureDirectory, pictureName);
             Uri pictureUri = Uri.fromFile(imageFile);// variable con uri
+
+
             // direccion
             intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
             uriUni = pictureUri;
