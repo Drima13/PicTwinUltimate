@@ -66,7 +66,7 @@ import static java.lang.Thread.sleep;
  */
 public class MainActivity extends Activity {
 
-    private String urlphp = "http://192.168.0.8";
+    private String urlphp = "http://192.168.0.8/1100";
     Button addImage;
     private Pic picUni;
     Uri uriUni;

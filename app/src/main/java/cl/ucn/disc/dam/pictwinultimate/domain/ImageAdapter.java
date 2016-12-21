@@ -84,7 +84,7 @@ public class ImageAdapter extends BaseAdapter{
                 .resize(300,300)
                 .centerCrop()
                 .into(img2);
-/*
+
         img1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -95,7 +95,16 @@ public class ImageAdapter extends BaseAdapter{
 
             }
         });
-        */
+        img2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                FotoActivity fotoActivity = new FotoActivity();
+                Intent intent = new Intent();
+                intent.putExtra("url",twin.getRemote().getUrl());
+                fotoActivity.startActivity(intent);
+
+            }
+        });
         return row;
     }
 }
